@@ -1,0 +1,18 @@
+#!/bin/sh
+
+commit_message=$(cat "$1")
+commit_regex="^(feat|fix|docs|style|refactor|perf|test|chore)(\(.+\))?: .{1,50}$"
+error_msg="Commit message format is invalid. Please use the following format:
+<type>(<scope>): <subject>
+
+type: feat, fix, docs, style, refactor, perf, test, chore
+scope: optional, but if present, must be enclosed in parentheses
+subject: a brief description of the change (50 characters or less)
+Example: feat(auth): add login functionality
+"
+
+if ! echo "$commit_message" | grep -Eq "$commit_regex"; then
+  echo "$error_msg"
+  exit 1
+fi
+
